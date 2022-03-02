@@ -26,6 +26,9 @@ Wiedźmak porusza się po planszy 2D, na której znajdują się różni przeciwn
 ### Uzyte technologie
 
 - Python
+- drzewa decyzyjne
+- sieci neuronowe
+- algorytm genetyczny
 
 <!-- ZESPOL -->
 
