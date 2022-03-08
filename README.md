@@ -10,6 +10,9 @@
             <a href="#uzyte-technologie">Uzyte technologie</a>
         </li>
         <li>
+            <a href=#uzyte-algorytmy">Uzyte algorytmy</a>
+        </li>
+        <li>
             <a href="#zespol">Zespol</a>
         </li>
     </ol>
@@ -26,9 +29,14 @@ Wiedźmak porusza się po planszy 2D, na której znajdują się różni przeciwn
 ### Uzyte technologie
 
 - Python
-- drzewa decyzyjne
-- sieci neuronowe
-- algorytm genetyczny
+- PyGame
+
+### Uzyte algorytmy
+
+- Drzewa decyzyjne
+- Sieci neuronowe
+- Algorytmy genetyczne
+- A\* Pathfinder
 
 <!-- ZESPOL -->
 
