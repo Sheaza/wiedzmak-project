@@ -1,11 +1,16 @@
 from abc import ABC, abstractmethod
+from pygame import image
 
 
 class Monster(ABC):
-    pos_x = None
-    pos_y = None
-    image = None
-    asset = None
+
+    def __init__(self, pos_x, pos_y, asset):
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.set_image()
+        self.asset = image.load(asset)
+        self.effective_oil = ''
+        self.effective_sword = ''
 
     @abstractmethod
     def sendImg(self):
