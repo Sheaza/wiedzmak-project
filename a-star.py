@@ -31,9 +31,9 @@ def a_star_search(start_state: State, end):
         if (current_state.x, current_state.y) == end: # if current state is the end path is reconstructed using parents
             path = []
 
-            while nodes_map[current_state] != current_state:
+            while current_state is not start_state:
                 path.append(current_state.action)
-                current_state = nodes_map[current_state]
+                current_state = current_state.parent
 
             path.reverse()
             return path
@@ -42,12 +42,12 @@ def a_star_search(start_state: State, end):
         for neighbour in current_state.get_neighbours():
             if neighbour not in open_list and neighbour not in closed_list: # if its completely new state
                 open_list.append(neighbour)
-                nodes_map[neighbour] = current_state
+                neighbour.parent = current_state
                 distances[neighbour] = neighbour.weight + distances[current_state]
             else:
                 if distances[neighbour] > distances[current_state] + neighbour.weight: # if its quicker to move with current state than neighbour we have to update its data
                     distances[neighbour] = distances[current_state] + neighbour.weight
-                    nodes_map[neighbour] = current_state
+                    neighbour.parent = current_state
 
                     if neighbour in closed_list: # if neighbour was in closed list we have to move it to open list
                         closed_list.remove(neighbour)
@@ -60,4 +60,4 @@ def a_star_search(start_state: State, end):
 
 
 # test
-print(a_star_search(start_state=State(const.START_POS, Action.NONE), end=(20, 21)))
+print(a_star_search(start_state=State(const.START_POS, Action.NONE), end=(24, 20)))
