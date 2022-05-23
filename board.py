@@ -1,11 +1,12 @@
 import pygame
 from random import randint
 import const  # Declaration of constants
+import a_star
 from bandit import Bandit
-from camera import Camera
 from grid import Grid
 from griffin import Griffin
 from leshy import Leshy
+from state import State
 from wiedzmak import Wiedzmak
 from wolf import Wolf
 import time
@@ -19,10 +20,10 @@ clock = pygame.time.Clock()
 # Initialize game classes
 witcher = Wiedzmak()
 grid = Grid()
-camera = Camera()
 monsters = []
 monsters_position = []
 been = []
+path = []
 
 # Set up the drawing window
 window = pygame.display.set_mode(const.windows_size)
@@ -44,7 +45,7 @@ while running:
 
     ### MATHS ###
     pos_x, pos_y = witcher.get_witcher_position()
-    map_x, map_y = camera.update_map_square(pos_x, pos_y)
+    map_x, map_y = pos_x//16, pos_y//16
 
     # RANDOM SPAWN
     if (map_x, map_y) not in been:
@@ -94,21 +95,14 @@ while running:
                 witcher.move('UP', monsters, monsters_positions)
             if event.key == pygame.K_DOWN:
                 witcher.move('DOWN', monsters, monsters_positions)
+                
         if event.type == change_witcher_direction:
             if monsters_positions:
-                path = grid.get_path(witcher.get_witcher_position(), monsters_positions[0])
-                direction_y = witcher.get_witcher_position()[1] - path[0][1]
-                direction_x = witcher.get_witcher_position()[0] - path[0][0]
-                path.pop(0)
-                if(direction_y == 1):
-                    witcher.move('UP', monsters, monsters_positions)
-                if(direction_y == 0):
-                    if(direction_x == -1):
-                        witcher.move('RIGHT', monsters, monsters_positions)
-                    else:
-                        witcher.move('LEFT', monsters, monsters_positions)
-                if(direction_y == -1):
-                    witcher.move('DOWN', monsters, monsters_positions)
+                if len(path) == 0:
+                    nearest_monster = a_star.nearest_monster_pos(witcher.get_witcher_position(), monsters_positions)
+                    path = a_star.a_star_search(State(witcher.get_witcher_position(), witcher.get_witcher_orientation()), nearest_monster)
+
+                witcher.move(path.pop(0), monsters, monsters_positions)
 
 
     ### DRAWING ####
