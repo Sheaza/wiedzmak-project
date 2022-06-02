@@ -35,6 +35,7 @@ Wiedźmak porusza się po planszy 2D, na której znajdują się różni przeciwn
 
 - Drzewa decyzyjne
 - Sieci neuronowe
+ model: https://drive.google.com/drive/folders/15nrdaRUqK2VCjWd-sJhzEProEEI_DlJZ?usp=sharing
 - Algorytmy genetyczne
 - A\* Pathfinder
 
