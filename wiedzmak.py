@@ -4,6 +4,7 @@ import const
 from action import Action
 from orientation import Orientation
 from decision_tree_prediction import DecisionTreePredict
+from neural_network_prediction import NeuralNet
 
 
 class Wiedzmak:
@@ -15,6 +16,7 @@ class Wiedzmak:
     equipped_oil = None
     asset = None
     model = None
+    neuralNet = None
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
@@ -23,6 +25,7 @@ class Wiedzmak:
             cls.asset = image.load('assets\\witcher.png')
             cls.asset = transform.scale(cls.asset, (cls.asset.get_width()*const.scale, cls.asset.get_height()*const.scale))
             cls.model = DecisionTreePredict()
+            cls.neuralNet = NeuralNet()
         return super().__new__(cls, *args, **kwargs)
 
     def move(self, action, monsters, monsters_positions):
@@ -100,7 +103,7 @@ class Wiedzmak:
 
     def fight(self, target):    # fight mechanics
         # TODO: monster recognition and equipment selection mechanics
-        self.equipped_oil = target.effective_oil
+        self.equipped_oil = self.neuralNet.predict(target.image) # cnn oil monster class prediction
         self.equipped_sword = self.model.predict(target.attributes) # done decision tree sword prediction
 
         print(f'FIGHT: witcher uses {self.equipped_sword} and {self.equipped_oil} to defeat {type(target).__name__}...')

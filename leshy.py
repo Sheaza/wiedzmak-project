@@ -7,7 +7,7 @@ class Leshy(Monster):
     counter = 0
     def __init__(self, pos_x, pos_y):
         super().__init__(pos_x, pos_y, 'assets\\leszy.png')
-        self.image = "zdjecie z setu danych"
+        self.image = 'training/leshy/The Witcher 3 Screenshot 2022.05.30 - 19.57.58.80.png'
         self.effective_oil = Oil.RELICT
         self.effective_sword = Sword.SILVER
         self.attributes = [1,0,0,0,1,0,1,2] #'pazury', 'skrzydla', 'ogon', 'siersc', 'dwie nogi', 'kly', 'rogi', 'humanoidalnosc'

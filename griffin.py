@@ -8,7 +8,7 @@ class Griffin(Monster):
 
     def __init__(self, pos_x, pos_y):
         super().__init__(pos_x, pos_y, 'assets\\gryf.png')
-        self.image = "zdjecie z setu danych"
+        self.image = 'training/griffin/The Witcher 3 Screenshot 2022.05.26 - 18.08.11.97.png'
         self.effective_oil = Oil.HYBRID
         self.effective_sword = Sword.SILVER
         self.attributes = [1,1,1,1,0,0,0,0] #'pazury', 'skrzydla', 'ogon', 'siersc', 'dwie nogi', 'kly', 'rogi', 'humanoidalnosc'
