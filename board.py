@@ -34,6 +34,10 @@ pygame.display.set_caption('Wiedzmak')
 icon = pygame.image.load('assets\\witcher.png')
 pygame.display.set_icon(icon)
 
+hp_full = pygame.image.load('assets\\hp_full.png')
+hp_medium = pygame.image.load('assets\\hp_medium.png')
+hp_low = pygame.image.load('assets\\hp_low.png')
+
 change_witcher_direction = pygame.USEREVENT
 pygame.time.set_timer(change_witcher_direction, 500)
 
@@ -76,9 +80,11 @@ while running:
 
             # finalna tablica obiektow z potworami
             monsters.append(new_monster)
-            print(monsters)
             monsters_positions = [x.get_position() for x in monsters]
-            print(monsters_positions)
+
+    if witcher.get_hp() <= 0:
+        running = False
+        print("You lost")
 
     ### EVENTS ###
     # Event handling
@@ -103,7 +109,31 @@ while running:
                     path = a_star.a_star_search(State(witcher.get_witcher_position(), witcher.get_witcher_orientation()), nearest_monster)
 
                 witcher.move(path.pop(0), monsters, monsters_positions)
+            else:
+                distances = []
+                for map in const.MAPS:
+                    if map not in been:
+                        x, y = map
+                        distance = (abs(map_x - x)) + (abs(map_y - y)) 
+                        temp = map, distance
+                        distances.append(temp)
+                
+                if distances:
+                    distances.sort(key=lambda x: x[1])
+                    new_map_x, new_map_y = distances[0][0]
+                    new_x = randint(new_map_x * 16, new_map_x * 16 + 15)
+                    new_y = randint(new_map_y * 16, new_map_y * 16 + 15)
 
+                    while (new_x,new_y) in monsters_positions or (new_x, new_y) in const.COLLISIONS:
+                        new_x = randint(new_map_x * 16, new_map_x * 16 + 15)
+                        new_y = randint(new_map_y * 16, new_map_y * 16 + 15)
+                    
+                    new_monster = Leshy(new_x,new_y)
+                    monsters.append(new_monster)
+                    monsters_positions = [x.get_position() for x in monsters]
+                else:
+                    running = False
+                    print("You won!")
 
     ### DRAWING ####
     # Fill the background
@@ -124,6 +154,24 @@ while running:
         if in_x_range and in_y_range:
             monster_image = monster.asset
             window.blit(monster_image, (monster.pos_x % 16 * const.SQUARE_SIZE, monster.pos_y % 16 * const.SQUARE_SIZE))
+
+    # Draw hp bar
+    hp_bar_pos_x = 0
+    hp_bar_pos_y = 0
+
+    if pos_y % 16 == 0:
+        hp_bar_pos_x = pos_x % 16 * const.SQUARE_SIZE
+        hp_bar_pos_y = pos_y % 16 * const.SQUARE_SIZE + 50
+    else:
+        hp_bar_pos_x = pos_x % 16 * const.SQUARE_SIZE
+        hp_bar_pos_y = pos_y % 16 * const.SQUARE_SIZE - 10        
+    
+    if witcher.get_hp() == 3:
+        window.blit(hp_full, (hp_bar_pos_x, hp_bar_pos_y))
+    elif witcher.get_hp() == 2:
+        window.blit(hp_medium, (hp_bar_pos_x, hp_bar_pos_y))
+    elif witcher.get_hp() == 1:
+        window.blit(hp_low, (hp_bar_pos_x, hp_bar_pos_y))
 
     ### DISPLAY ###
     pygame.display.update()

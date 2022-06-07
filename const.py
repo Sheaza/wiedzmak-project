@@ -16,6 +16,11 @@ START_ORIENTATION = Orientation.UP
 MONSTER_NAMES = ['Leshy', 'Wolf', 'Bandit', 'Griffin']
 MONSTER_COUNT = 10
 
+MAPS = [
+    (0,0),(0,1),(0,2),
+    (1,0),(1,1),(1,2),
+    (2,0),(2,1),(2,2)
+]
 
 WATER = [
     # Map 2,1

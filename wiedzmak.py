@@ -17,6 +17,7 @@ class Wiedzmak:
     asset = None
     model = None
     neuralNet = None
+    hp = 3
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
@@ -34,59 +35,47 @@ class Wiedzmak:
                 self.__orientation = Action.TURN_LEFT.value
                 self.asset = image.load(f'assets\\witcher_moveLEFT.png')
                 self.asset = transform.scale(self.asset, (self.asset.get_width()*const.scale, self.asset.get_height()*const.scale))
-                print(f"DEBUG: TURN LEFT")
             elif self.__orientation == Orientation.DOWN: # rotate to the right direction
                 self.__orientation = Action.TURN_LEFT.value
                 self.asset = image.load(f'assets\\witcher_moveLEFT.png')
                 self.asset = transform.scale(self.asset, (self.asset.get_width()*const.scale, self.asset.get_height()*const.scale))
-                print(f"DEBUG: TURN LEFT")
             elif self.__orientation == Orientation.LEFT: # rotate to the right direction
                 self.__orientation = Action.TURN_DOWN.value
                 self.asset = image.load(f'assets\\witcher_moveDOWN.png')
                 self.asset = transform.scale(self.asset, (self.asset.get_width()*const.scale, self.asset.get_height()*const.scale))
-                print(f"DEBUG: TURN DOWN")
             elif self.__orientation == Orientation.RIGHT: # rotate to the right direction
                 self.__orientation = Action.TURN_UP.value
                 self.asset = image.load(f'assets\\witcher_moveUP.png')
                 self.asset = transform.scale(self.asset, (self.asset.get_width()*const.scale, self.asset.get_height()*const.scale))
-                print(f"DEBUG: TURN UP")
 
         if action == Action.TURN_RIGHT:
             if self.__orientation == Orientation.UP: # rotate to the right direction
                 self.__orientation = Action.TURN_RIGHT.value
                 self.asset = image.load(f'assets\\witcher_moveRIGHT.png')
                 self.asset = transform.scale(self.asset, (self.asset.get_width()*const.scale, self.asset.get_height()*const.scale))
-                print(f"DEBUG: TURN RIGHT")
             elif self.__orientation == Orientation.DOWN: # rotate to the right direction
                 self.__orientation = Action.TURN_RIGHT.value
                 self.asset = image.load(f'assets\\witcher_moveRIGHT.png')
                 self.asset = transform.scale(self.asset, (self.asset.get_width()*const.scale, self.asset.get_height()*const.scale))
-                print(f"DEBUG: TURN RIGHT")
             elif self.__orientation == Orientation.LEFT: # rotate to the right direction
                 self.__orientation = Action.TURN_UP.value
                 self.asset = image.load(f'assets\\witcher_moveUP.png')
                 self.asset = transform.scale(self.asset, (self.asset.get_width()*const.scale, self.asset.get_height()*const.scale))
-                print(f"DEBUG: TURN UP")
             elif self.__orientation == Orientation.RIGHT: # rotate to the right direction
                 self.__orientation = Action.TURN_DOWN.value
                 self.asset = image.load(f'assets\\witcher_moveDown.png')
                 self.asset = transform.scale(self.asset, (self.asset.get_width()*const.scale, self.asset.get_height()*const.scale))
-                print(f"DEBUG: TURN DOWN")
         if action == Action.MOVE:
             if self.__orientation == Orientation.UP:
                 self.__pos_y += -1
-                print(f"DEBUG: MOVE UP")
             elif self.__orientation == Orientation.DOWN:
                 self.__pos_y += 1
-                print(f"DEBUG: MOVE DOWN")
             elif self.__orientation == Orientation.LEFT:
                 self.__pos_x += -1
-                print(f"DEBUG: MOVE LEFT")
             elif self.__orientation == Orientation.RIGHT:
                 self.__pos_x += 1
-                print(f"DEBUG: MOVE RIGHT")
             self.check_for_enemies(self.__pos_x, self.__pos_y, monsters, monsters_positions)
-        print(f'("{self.__pos_x},{self.__pos_y},"{self.__orientation}")')   # position after moving
+        #print(f'("{self.__pos_x},{self.__pos_y},"{self.__orientation}")')   # position after moving
 
     def check_for_enemies(self, checkX, checkY, monsters, monsters_positions):
         if (checkX,checkY) in monsters_positions:                           # checking given position for monsters
@@ -98,8 +87,6 @@ class Wiedzmak:
                                 monsters_positions.remove((checkX,checkY))
                             else:
                                 print('witcher_dead')
-                    print('other monsters: ',monsters_positions)
-                    print('--------')
 
     def fight(self, target):    # fight mechanics
         # TODO: monster recognition and equipment selection mechanics
@@ -112,6 +99,7 @@ class Wiedzmak:
             return True
         else:
             print('FIGHT: ...and he fails!')
+            self.get_hit()
             return False
 
     def get_witcher_position(self):
@@ -119,3 +107,9 @@ class Wiedzmak:
 
     def get_witcher_orientation(self):
         return self.__orientation
+
+    def get_hp(self):
+        return self.hp
+
+    def get_hit(self):
+        self.hp -= 1
