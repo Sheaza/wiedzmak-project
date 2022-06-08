@@ -3,6 +3,7 @@ from random import randint
 
 import const  # Declaration of constants
 import a_star
+import genetic_generation as genetic
 from bandit import Bandit
 from grid import Grid
 from griffin import Griffin
@@ -54,10 +55,10 @@ MEDIUM_BUTTON = Button(image=pygame.image.load("assets\\play_longer.png"), pos=(
 HARD_BUTTON = Button(image=pygame.image.load("assets\\play.png"), pos=(400, 550), 
                     text_input="HARD", font=pygame.font.Font('assets\\font.ttf',75), base_color="#d7fcd4", hovering_color="White")
 
-game_mode = 0
+game_mode = -1
 running = True
 while running:
-    if game_mode == 0:
+    if game_mode == -1:
         window.blit(menu_background, (0,0))
         MENU_MOUSE_POS = pygame.mouse.get_pos()
         window.blit(MENU_TEXT,MENU_RECT)
@@ -71,54 +72,44 @@ while running:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EASY_BUTTON.check_for_input(MENU_MOUSE_POS):
-                    game_mode = 1
-                    # Here add code for choosen level
+                    game_mode = 0
                 elif MEDIUM_BUTTON.check_for_input(MENU_MOUSE_POS):
                     game_mode = 1
-                    # Here add code for choosen level
                 elif HARD_BUTTON.check_for_input(MENU_MOUSE_POS):
-                    game_mode = 1
-                    # Here add code for choosen level
-
-    elif game_mode == 1:
-
+                    game_mode = 2
+                print(game_mode)
+    else:
         ### CLOCK ###
         dt = clock.tick(const.framerate)
 
         ### MATHS ###
         pos_x, pos_y = witcher.get_witcher_position()
-        map_x, map_y = pos_x//16, pos_y//16
+        map_x, map_y = pos_x // 16, pos_y // 16
 
-        # RANDOM SPAWN
+            # RANDOM SPAWN
         if (map_x, map_y) not in been:
-            been.append((map_x, map_y)) # list of tuples
-            
-            for x in range(const.MONSTER_COUNT): # spawn certain number of monsters
-                # 1 to 14 are values which exclude borders of a map
-                spawn_x = randint(1, 14) + map_x * 16
-                spawn_y = randint(1, 14) + map_y * 16
-                monster_type = randint(0, len(const.MONSTER_NAMES)-1)
+            been.append((map_x, map_y))  # list of tuples
+            genetic_result = genetic.algorithm(game_mode, map_x, map_y, (pos_x, pos_y))  # list of monster positions chosen by genetic algorithm
 
-                # pomocnicza lista pozycji potworow i deklaracja zmiennej przetrzymujacej obiekt
-                monsters_positions = [x.get_position() for x in monsters]
-
-                while (spawn_x, spawn_y) in const.COLLISIONS or (spawn_x, spawn_y) in monsters_positions or (spawn_x, spawn_y) == (witcher.get_witcher_position()):
-                    spawn_x = randint(1, 14) + map_x * 16
-                    spawn_y = randint(1, 14) + map_y * 16
+            for monster in genetic_result:
+                position = monster[0]
+                type = monster[1]
 
                 # tworzenie nowego obiektu wylosowanego potwora
-                if const.MONSTER_NAMES[monster_type] == 'Leshy':
-                    new_monster = Leshy(spawn_x, spawn_y)
-                elif const.MONSTER_NAMES[monster_type] == 'Wolf':
-                    new_monster = Wolf(spawn_x, spawn_y)
-                elif const.MONSTER_NAMES[monster_type] == 'Bandit':
-                    new_monster = Bandit(spawn_x, spawn_y)
-                elif const.MONSTER_NAMES[monster_type] == 'Griffin':
-                    new_monster = Griffin(spawn_x, spawn_y)
+                if type == 'Leshy':
+                    new_monster = Leshy(position[0], position[1])
+                elif type == 'Wolf':
+                    new_monster = Wolf(position[0], position[1])
+                elif type == 'Bandit':
+                    new_monster = Bandit(position[0], position[1])
+                elif type == 'Griffin':
+                    new_monster = Griffin(position[0], position[1])
 
                 # finalna tablica obiektow z potworami
                 monsters.append(new_monster)
+                print(monsters)
                 monsters_positions = [x.get_position() for x in monsters]
+                print(monsters_positions)
 
         if witcher.get_hp() <= 0:
             running = False
@@ -132,14 +123,14 @@ while running:
             if event.type == pygame.KEYDOWN:    # moving character
                 curr_position = witcher.get_witcher_position()
                 if event.key == pygame.K_LEFT:
-                    witcher.move('LEFT', monsters, monsters_positions) 
+                    witcher.move('LEFT', monsters, monsters_positions)
                 if event.key == pygame.K_RIGHT:
                     witcher.move('RIGHT', monsters, monsters_positions)
                 if event.key == pygame.K_UP:
                     witcher.move('UP', monsters, monsters_positions)
                 if event.key == pygame.K_DOWN:
                     witcher.move('DOWN', monsters, monsters_positions)
-                    
+
             if event.type == change_witcher_direction:
                 if monsters_positions:
                     if len(path) == 0:
@@ -152,10 +143,10 @@ while running:
                     for map in const.MAPS:
                         if map not in been:
                             x, y = map
-                            distance = (abs(map_x - x)) + (abs(map_y - y)) 
+                            distance = (abs(map_x - x)) + (abs(map_y - y))
                             temp = map, distance
                             distances.append(temp)
-                    
+
                     if distances:
                         distances.sort(key=lambda x: x[1])
                         new_map_x, new_map_y = distances[0][0]
@@ -165,7 +156,7 @@ while running:
                         while (new_x,new_y) in monsters_positions or (new_x, new_y) in const.COLLISIONS:
                             new_x = randint(new_map_x * 16, new_map_x * 16 + 15)
                             new_y = randint(new_map_y * 16, new_map_y * 16 + 15)
-                        
+
                         new_monster = Leshy(new_x,new_y)
                         monsters.append(new_monster)
                         monsters_positions = [x.get_position() for x in monsters]
@@ -202,8 +193,8 @@ while running:
             hp_bar_pos_y = pos_y % 16 * const.SQUARE_SIZE + 50
         else:
             hp_bar_pos_x = pos_x % 16 * const.SQUARE_SIZE
-            hp_bar_pos_y = pos_y % 16 * const.SQUARE_SIZE - 10        
-        
+            hp_bar_pos_y = pos_y % 16 * const.SQUARE_SIZE - 10
+
         if witcher.get_hp() == 3:
             window.blit(hp_full, (hp_bar_pos_x, hp_bar_pos_y))
         elif witcher.get_hp() == 2:

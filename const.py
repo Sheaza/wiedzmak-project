@@ -13,7 +13,7 @@ GRID_SIZE = 48
 scale = 0.12
 START_POS = (0, 0)
 START_ORIENTATION = Orientation.UP
-MONSTER_NAMES = ['Leshy', 'Wolf', 'Bandit', 'Griffin']
+MONSTER_NAMES = ['Wolf', 'Bandit', 'Griffin', 'Leshy']
 MONSTER_COUNT = 10
 
 MAPS = [
