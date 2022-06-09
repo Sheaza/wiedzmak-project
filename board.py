@@ -77,7 +77,6 @@ while running:
                     game_mode = 1
                 elif HARD_BUTTON.check_for_input(MENU_MOUSE_POS):
                     game_mode = 2
-                print(game_mode)
     else:
         ### CLOCK ###
         dt = clock.tick(const.framerate)
@@ -88,8 +87,8 @@ while running:
 
             # RANDOM SPAWN
         if (map_x, map_y) not in been:
+            genetic_result = genetic.algorithm(game_mode, map_x,map_y)  # list of monster positions chosen by genetic algorithm
             been.append((map_x, map_y))  # list of tuples
-            genetic_result = genetic.algorithm(game_mode, map_x, map_y, (pos_x, pos_y))  # list of monster positions chosen by genetic algorithm
 
             for monster in genetic_result:
                 position = monster[0]
