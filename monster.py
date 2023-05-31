@@ -11,7 +11,6 @@ class Monster(ABC):
         self.asset = image.load(asset)
         self.effective_oil = ''
         self.effective_sword = ''
-        self.attributes = [] #'pazury', 'skrzydla', 'ogon', 'siersc', 'dwie nogi', 'kly', 'rogi', 'magiczne'
 
     @abstractmethod
     def sendImg(self):

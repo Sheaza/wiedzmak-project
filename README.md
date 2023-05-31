@@ -24,8 +24,6 @@
 
 Wiedźmak porusza się po planszy 2D, na której znajdują się różni przeciwnicy. Musi znaleźć optymalną drogę do przeciwnika, określić jego rodzaj oraz dobrać odpowiedni miecz oraz olej do walki. Po wygranej (dobrym dobraniu ekwipunku) wiedźmaka przeciwnik jest pokonany i znika z planszy, natomiast jeśli ekwipunek był nieodpowiedni wiedźmak przegrywa walke (umiera). Celem wiedźmaka jest pokonanie wszystkich stworów na planszy w jednym podejściu.
 
-Link do screenow (folder training): https://drive.google.com/drive/folders/1-xUvKU6yhRxzDyIOtgx-V4CFACWeBp5W?usp=sharing                             
-                    
 <!-- UZYTE TECHNOLOGIE -->
 
 ### Uzyte technologie
@@ -37,7 +35,11 @@ Link do screenow (folder training): https://drive.google.com/drive/folders/1-xUv
 
 - Drzewa decyzyjne
 - Sieci neuronowe
- model: https://drive.google.com/drive/folders/15nrdaRUqK2VCjWd-sJhzEProEEI_DlJZ?usp=sharing
+    - Zdjęcia Leshego (autor: Dominika Lesniewska): https://drive.google.com/drive/folders/1R5TlFmwyJl8MG4hWFTVmTvZej_wGButY
+    - Zdjęcia Wilka (autor: Alicja Szulecka): https://drive.google.com/drive/folders/179K8Mp8_3NGVhpybZnue78cB1e6B80VW?usp=sharing
+    - Zdjęcia Gryfa (autor: Dominik Mikołajczyk): https://drive.google.com/drive/folders/1059oIe5fiTES7k2KDk0XL1buBgvOQ7zh?usp=sharing
+    - Zdjęcia Bandyty (autor: Karol Filipiak): https://drive.google.com/drive/folders/1p_gDXpxJ6Wt5XboH4mMr7H8U4RVHqIdY
+    - Model Sieci: https://drive.google.com/drive/folders/15nrdaRUqK2VCjWd-sJhzEProEEI_DlJZ?usp=sharing
 - Algorytmy genetyczne
 - A\* Pathfinder
 
