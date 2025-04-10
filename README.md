@@ -1,4 +1,4 @@
-# WIEDZMAK 🧙
+# WIEDZMAK <img src="assets/witcher.png" alt="drawing" width="60"/>
 
 <details open="open">
     <summary>Spis tresci</summary>
@@ -24,6 +24,7 @@
 
 Wiedźmak porusza się po planszy 2D, na której znajdują się różni przeciwnicy. Musi znaleźć optymalną drogę do przeciwnika, określić jego rodzaj oraz dobrać odpowiedni miecz oraz olej do walki. Po wygranej (dobrym dobraniu ekwipunku) wiedźmaka przeciwnik jest pokonany i znika z planszy, natomiast jeśli ekwipunek był nieodpowiedni wiedźmak przegrywa walke (umiera). Celem wiedźmaka jest pokonanie wszystkich stworów na planszy w jednym podejściu.
 
+<img src="screens/monsters.png" alt="drawing" width="300"/>
 <!-- UZYTE TECHNOLOGIE -->
 
 ### Uzyte technologie
@@ -47,7 +48,7 @@ Wiedźmak porusza się po planszy 2D, na której znajdują się różni przeciwn
 
 ### Zespol
 
-- Natalia Wolowiec
+- Arden Wolowiec
 - Alicja Szulecka
 - Karol Filipiak
 - Dominik Mikolajczyk
